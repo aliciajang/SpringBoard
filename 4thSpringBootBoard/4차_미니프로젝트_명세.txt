@@ -1,0 +1,7 @@
+[4th 미니 프로젝트]
+
+1. JAVA Servlet/JSP/SpringBoot MVC Basic 게시판 프로그램
+
+2. 요구 사항
+ 1) 요구 기술 : JAVA Servlet/JSP/SpringBoot MVC, JSTL, JDBC, JPA, Hibernate, H2 DB
+ 2) 요구 기능 : 게시판 회원가입, 로그인, 로그아웃, 암호변경, 게시글 쓰기, 목록 조회, 내용 조회, 게시글 수정, 게시글 삭제
