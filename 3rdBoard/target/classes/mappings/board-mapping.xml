@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDAO">
+
+	<insert id="insertBoard" >	
+		INSERT INTO BOARD(NO,TITLE,WRITER,CONTENT)
+		VALUES((SELECT NVL(MAX(NO), 0) + 1 FROM BOARD),#{title},#{writer},#{content})
+	</insert>
+	
+	<insert id="insertNotice" >	
+		INSERT INTO NOTICE(UNI,NO,TITLE,WRITER,CONTENT)
+		VALUES(UNI_SEQ.NEXTVAL,'공지',#{title},#{writer},#{content})
+	</insert>
+
+	<insert id="insertMood" >	
+		INSERT INTO MOOD(no)
+		VALUES((SELECT NVL(MAX(NO), 0) FROM BOARD))
+	</insert>
+	
+	
+	<select id="getBoardCount" resultType="int">
+	SELECT COUNT(*) FROM BOARD WHERE 1 = 1
+	<if test="searchCondition == 'TITLE'">
+	AND TITLE LIKE '%'||#{searchKeyword}||'%'
+	</if>
+	<if test="searchCondition == 'CONTENT'">
+	AND CONTENT LIKE '%'||#{searchKeyword}||'%'
+	</if>
+	</select>
+	
+	<select id="getBoardPages" resultType="board">
+	SELECT * FROM
+	(SELECT B.*,ROWNUM AS R FROM (SELECT * FROM BOARD WHERE 1 = 1
+	<if test="searchCondition == 'TITLE'">
+	AND TITLE LIKE '%'||#{searchKeyword}||'%'
+	</if>
+	<if test="searchCondition == 'CONTENT'">
+	AND CONTENT LIKE '%'||#{searchKeyword}||'%'
+	</if>
+	ORDER BY NO DESC) B)
+	<![CDATA[
+	WHERE R >= #{startRow} AND R <= #{endRow}
+	]]>
+	</select>
+	
+	<select id="getNoticeList" resultType="nvo">
+	SELECT * FROM NOTICE ORDER BY UNI DESC
+	</select>
+	
+	
+	<select id="getBoard" resultType="board">
+		SELECT * FROM BOARD WHERE NO = #{no}
+	</select>
+
+	<select id="getNotice" resultType="nvo">
+		SELECT * FROM NOTICE WHERE UNI = #{uni}
+	</select>
+
+	<select id="getMood" resultType="mvo">
+		SELECT * FROM MOOD WHERE NO = #{no}
+	</select>
+
+	<update id="increaseCount">
+		UPDATE BOARD SET CNT = CNT + 1 WHERE NO = #{no}
+	</update>
+
+	<update id="goodOrBad" parameterType="mvo">
+		UPDATE MOOD
+		<if test="good == 1">
+		SET GOOD = GOOD + 1
+		</if>
+		<if test="bad == 1">
+		SET BAD = BAD + 1
+		</if>
+		WHERE NO = #{no}
+	</update>
+
+	<update id="updateBoard">
+		UPDATE BOARD SET TITLE=#{title}, CONTENT=#{content} WHERE NO = #{no}
+	</update>
+
+	<delete id="deleteBoard">
+		DELETE FROM BOARD WHERE NO = #{no}
+	</delete>
+	
+	<delete id="deleteNotice">
+		DELETE FROM NOTICE WHERE UNI = #{uni}
+	</delete>
+
+	<delete id="deleteMood">
+		DELETE FROM MOOD WHERE NO = #{no}
+	</delete>
+
+	<resultMap id="boardResult" type="board">
+		<id property="no" column="NO" />
+		<result property="writer" column="WRITER" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="regDate" column="REGDATE" />
+		<result property="cnt" column="CNT" />
+	</resultMap>
+
+</mapper>

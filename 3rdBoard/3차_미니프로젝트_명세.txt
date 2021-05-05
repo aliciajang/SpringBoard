@@ -1,0 +1,18 @@
+[3rd 미니 프로젝트]
+
+1. JAVA Servlet/JSP/Spring MVC LevelUp 게시판 프로그램
+
+2. 요구 사항
+ 1) 요구 기술 : 
+   ① Front-End : HTML5, CSS3, Javascript, jQuery, JSON, Ajax, Bootstrap 반응형 웹, Spring JSP include (또는 Tiles)
+   ② Back-End : JAVA Servlet/JSP/Spring MVC, WAS(ApacheTomcat 9.0), Maven, JSTL, Lombok, JDBC, MyBatis, Oracle11g DB, 공공API 도로명주소
+
+ 2) 요구 기능 : 
+   ① 회원 가입 (이름, 아이디, 비밀번호, 생년월일, 연락처, 주소, 상세주소, 프로필 이미지 업로드, 관리자/사용자 구분 가입)
+   ② 회원 정보 수정
+   ③ 로그인, 로그아웃, 이메일로 ID찾기, ID와 이메일로 PW 찾기
+   ④ 게시판 글 등록, 수정, 삭제, 조회, 하단 페이징 처리, 조회수 
+   ⑤ 게시판 글의 댓글, 댓글의 좋아요/싫어요(체크 수 카운팅)
+   ⑥ 관리자(Admin)는 공지사항 글 등록/수정/삭제, 사용자(User)는 공지사항 조회, 읽기만 가능 // 공지사항 페이징 처리
+   ⑦ 반응형 웹 적용 (Bootstrap, FontAwesome 활용)
+   ⑧ 회원 탈퇴

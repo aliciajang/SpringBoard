@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommentDAO">
+
+	<insert id="insertComment">	
+		INSERT INTO BOARD_COMMENT(COMMENT_NO,NO,WRITER,CONTENT)
+		VALUES((SELECT NVL(MAX(COMMENT_NO), 0) + 1 FROM BOARD_COMMENT),#{no},#{writer},#{content})
+	</insert>
+	
+	<select id="getCommentList" resultMap="CommentResult">
+	<![CDATA[
+	SELECT * FROM BOARD_COMMENT WHERE NO = #{no} ORDER BY COMMENT_NO
+	]]>
+	</select>
+	
+	<update id="updateComment">
+		UPDATE BOARD_COMMENT SET CONTENT=#{content} WHERE NO = #{no} AND COMMENT_NO = #{commentNo}
+	</update>
+	
+	<select id="getCommentCount" resultType="int">
+	SELECT COUNT(*) FROM BOARD_COMMENT WHERE NO = #{no}
+	</select>
+	
+	<delete id="deleteComment">
+		DELETE FROM BOARD_COMMENT WHERE NO = #{no} AND COMMENT_NO = #{commentNo}
+	</delete>
+	
+	<resultMap id="CommentResult" type="Comment">
+		<id property="commentNo" column="COMMENT_NO"/>
+		<result property="no" column="NO" />
+		<result property="writer" column="WRITER" />
+		<result property="content" column="CONTENT" />
+		<result property="regDate" column="REGDATE" />
+	</resultMap>
+
+</mapper>
